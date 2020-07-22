@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const MongoClient = require("mongodb").MongoClient;
+//const MongoClient = require("mongodb").MongoClient;
 const dbName = process.env.NODE_ENV === "dev" ? "database-test" : "database";
 
-const url = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${dbName}:27017?authMechanism=SCRAM-SHA-1&authSource=admin`;
+//const url = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${dbName}:27017?authMechanism=SCRAM-SHA-1&authSource=admin`;
 
 const options = {
   useNewUrlParser: true,
@@ -12,7 +12,7 @@ const options = {
 };
 
 const routes = require("./routes/routes.js");
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 const app = express();
 const http = require("http").Server(app);
 
@@ -23,16 +23,15 @@ app.use((req, res) => {
   res.status(404);
 });
 
-MongoClient.connect(url, options, (err, database) => {
+/*MongoClient.connect(url, options, (err, database) => {
   if (err) {
     console.log(`FATAL MONGO CONNECTION ERROR: ${err}:${err.stack}`);
     process.exit(1);
-  }
-  app.locals.db = database.db("api");
-  http.listen(port, () => {
-    console.log("Listening on port " + port);
-    app.emit("APP_STARTED");
-  });
+  } */
+//app.locals.db = database.db("api");
+http.listen(port, () => {
+  console.log("Listening on port " + port);
+  app.emit("APP_STARTED");
 });
 
 module.exports = app;

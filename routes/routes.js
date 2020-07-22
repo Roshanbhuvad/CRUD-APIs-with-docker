@@ -4,41 +4,20 @@ const Document = require("../models/Document");
 const router = express.Router();
 
 router.get("/documents", (req, res, next) => {
-  req.locals.db
-    .collection("documents")
-    .find({})
-    .toArray((err, result) => {
-      if (err) {
-        res.status(400).send({ error: err });
-      }
-      if (result === undefined || result.length === 0) {
-        res.status(400).send({ error: "No documents in database" });
-      } else {
-        res.status(200).send(result);
-      }
-    });
+  res.send("Welcome to REST API with Node.js ");
 });
 
 router.get("/documents/:id", (req, res, next) => {
-  req.app.locals.db.collection("documents").findOne(
-    {
-      _id: req.params.id,
-    },
-    (err, result) => {
-      if (err) {
-        res.status(400).send({ error: err });
-      }
-      if (result === undefined) {
-        res
-          .status(400)
-          .send({ error: "No document matching that id was found " });
-      } else {
-        res.status(200).send(result);
-      }
-    }
-  );
-});
+  const document = Document.find((c) => c.id === parseInt(req.params.id));
 
+  if (!book)
+    res
+      .status(404)
+      .send(
+        '<h2 style="font-family: Malgun Gothic; color: darkred;">Ooops... Cant find what you are looking for!</h2>'
+      );
+  res.send(book);
+});
 router.post("/documents", (req, res, next) => {
   const newDocument = new Document(
     req.body.title,
